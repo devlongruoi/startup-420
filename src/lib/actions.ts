@@ -13,7 +13,7 @@ export type CreatePitchResult = ActionState & { _id?: string };
 export const createPitch = async (
   _state: ActionState,
   form: FormData,
-  pitch: string,
+  pitch: string
 ): Promise<CreatePitchResult> => {
   const session = await auth();
 
@@ -22,6 +22,14 @@ export const createPitch = async (
       error: "Not signed in",
       status: "ERROR",
     });
+
+  const authorId = (session as { id?: string } | null)?.id;
+  if (!authorId) {
+    return parseServerActionResponse({
+      error: "Unable to resolve author for this session",
+      status: "ERROR",
+    });
+  }
 
   // Normalize and extract values from FormData
   const titleEntry = form.get("title");
@@ -56,7 +64,7 @@ export const createPitch = async (
   try {
     const existingSlugs: string[] = await client.fetch(
       `*[_type == "startup" && defined(slug.current) && slug.current match $prefix + "*"]{ "s": slug.current }[].s`,
-      { prefix: baseSlug },
+      { prefix: baseSlug }
     );
 
     if (existingSlugs.includes(slug)) {
@@ -88,7 +96,11 @@ export const createPitch = async (
 
     const result = await writeClient.create({ _type: "startup", ...startup });
 
-    return parseServerActionResponse({ ...result, error: "", status: "SUCCESS" } as CreatePitchResult);
+    return parseServerActionResponse({
+      ...result,
+      error: "",
+      status: "SUCCESS",
+    } as CreatePitchResult);
   } catch (error) {
     console.log(error);
 

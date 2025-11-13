@@ -6,9 +6,9 @@ const UserStartups = async ({ id }: { id: string }) => {
   // Guard against missing id (e.g., session race condition)
   if (!id) {
     return (
-      <output className="text-sm text-muted-foreground">
+      <p className="text-sm text-muted-foreground">
         No user id available.
-      </output>
+      </p>
     );
   }
 
@@ -22,9 +22,9 @@ const UserStartups = async ({ id }: { id: string }) => {
       error,
     });
     return (
-      <output className="text-sm text-muted-foreground">
+      <p className="text-sm text-muted-foreground">
         Your startups are temporarily unavailable.
-      </output>
+      </p>
     );
   }
 

@@ -7,8 +7,28 @@ import { writeClient } from "@/sanity/lib/write-client";
 import { client } from "@/sanity/lib/client";
 import { serverFormSchema } from "@/lib/validation";
 
-type ActionState = { error: string; status: "INITIAL" | "SUCCESS" | "ERROR" };
+type ActionState = {
+  error: string;
+  status: "INITIAL" | "SUCCESS" | "ERROR";
+  // Optional structured validation errors for actionable feedback
+  errors?: Record<string, string[]> | string;
+};
 export type CreatePitchResult = ActionState & { _id?: string };
+
+const aggregateZodIssues = (issues: Array<{ path?: (string | number)[]; message: string }>): Record<string, string[]> => {
+  const fieldErrors: Record<string, string[]> = {};
+  for (const issue of issues) {
+    const key = issue.path?.[0]?.toString() ?? "form";
+    if (!fieldErrors[key]) fieldErrors[key] = [];
+    fieldErrors[key].push(issue.message);
+  }
+  return fieldErrors;
+};
+
+const summarizeFieldErrors = (fieldErrors: Record<string, string[]>): string => {
+  const messages = Object.entries(fieldErrors).flatMap(([field, msgs]) => (msgs ?? []).map((m) => `${field}: ${m}`));
+  return messages.length ? `Validation failed: ${messages.join("; ")}` : "Validation failed";
+};
 
 export const createPitch = async (
   _state: ActionState,
@@ -52,9 +72,13 @@ export const createPitch = async (
   });
 
   if (!validation.success) {
+    const fieldErrors = aggregateZodIssues(validation.error.issues);
+    const summary = summarizeFieldErrors(fieldErrors);
+
     return parseServerActionResponse({
-      error: "Validation failed",
+      error: summary,
       status: "ERROR",
+      errors: fieldErrors,
     });
   }
 
@@ -89,7 +113,7 @@ export const createPitch = async (
       },
       author: {
         _type: "reference",
-        _ref: (session as Record<string, unknown> | null)?.["id"] as string,
+        _ref: authorId,
       },
       pitch,
     };

@@ -5,11 +5,17 @@ import SearchFormReset from "@/components/SearchFormReset";
 const SearchForm = ({ query }: { query?: string }) => {
     return (
         <Form action="/" scroll={false} className="search-form">
+            {/* Visually hidden label for accessibility */}
+            <label htmlFor="search-startups" className="sr-only">
+                Search Startups
+            </label>
             <input
+                id="search-startups"
                 name="query"
                 defaultValue={query}
                 className="search-input"
                 placeholder="Search Startups"
+                type="search"
             />
 
             <div className="flex gap-2">

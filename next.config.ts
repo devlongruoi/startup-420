@@ -1,9 +1,67 @@
-import {withSentryConfig} from "@sentry/nextjs";
+import { withSentryConfig } from "@sentry/nextjs";
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   /* config options here */
   reactCompiler: true,
+  images: {
+    remotePatterns: [
+      // GitHub
+      { protocol: "https", hostname: "avatars.githubusercontent.com" },
+
+      // Cloudinary
+      { protocol: "https", hostname: "res.cloudinary.com" },
+
+      // ImageKit
+      { protocol: "https", hostname: "ik.imagekit.io" },
+
+      // Unsplash
+      { protocol: "https", hostname: "images.unsplash.com" },
+
+      // Pexels
+      { protocol: "https", hostname: "images.pexels.com" },
+
+      // Pixabay
+      { protocol: "https", hostname: "cdn.pixabay.com" },
+
+      // Freepik / Flaticon
+      { protocol: "https", hostname: "img.freepik.com" },
+
+      { protocol: "https", hostname: "media.flaticon.com" },
+
+      // Pinterest
+      { protocol: "https", hostname: "i.pinimg.com" },
+      
+      { protocol: "https", hostname: "s.pinimg.com" },
+
+      // Google Photos / Blogger
+      { protocol: "https", hostname: "lh3.googleusercontent.com" },
+
+      // Twitter / X
+      { protocol: "https", hostname: "pbs.twimg.com" },
+
+      // Facebook CDN
+      { protocol: "https", hostname: "scontent.xx.fbcdn.net" },
+
+      // Reddit
+      { protocol: "https", hostname: "preview.redd.it" },
+
+      // Tumblr
+      { protocol: "https", hostname: "64.media.tumblr.com" },
+
+      // Shopify CDN
+      { protocol: "https", hostname: "cdn.shopify.com" },
+
+      // Medium
+      { protocol: "https", hostname: "miro.medium.com" },
+
+      // Vercel Blob URLs
+      { protocol: "https", hostname: "public.blob.vercel-storage.com" },
+
+      // Staticflickr
+      { protocol: "https", hostname: "live.staticflickr.com" },
+    ],
+  },
 };
 
 export default withSentryConfig(nextConfig, {

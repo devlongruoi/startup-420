@@ -15,10 +15,11 @@ type ActionState = {
 };
 export type CreatePitchResult = ActionState & { _id?: string };
 
-const aggregateZodIssues = (issues: Array<{ path?: (string | number)[]; message: string }>): Record<string, string[]> => {
+const aggregateZodIssues = (issues: Array<{ path?: PropertyKey[]; message: string }>): Record<string, string[]> => {
   const fieldErrors: Record<string, string[]> = {};
   for (const issue of issues) {
-    const key = issue.path?.[0]?.toString() ?? "form";
+    const first = issue.path?.[0];
+    const key = typeof first === "string" || typeof first === "number" ? String(first) : "form";
     if (!fieldErrors[key]) fieldErrors[key] = [];
     fieldErrors[key].push(issue.message);
   }

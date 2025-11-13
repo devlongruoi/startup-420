@@ -132,7 +132,7 @@ export const createPitch = async (
       status: "SUCCESS",
     } as CreatePitchResult);
   } catch (error) {
-    console.log(error);
+    console.error('[createPitch] Failed to create startup', { error });
 
     return parseServerActionResponse({
       error: "Failed to create startup",

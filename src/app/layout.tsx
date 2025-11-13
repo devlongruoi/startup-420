@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
 // Removed unused EasyMDE stylesheet import; @uiw/react-md-editor does not require it.
-import { Toaster } from "@/components/ui/sonner";
+import { Toaster } from "@/components/ui/toaster";
 
 const workSans = localFont({
   src: [

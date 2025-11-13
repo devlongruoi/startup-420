@@ -1,8 +1,8 @@
+import Link from "next/link";
 import SearchForm from "@/components/SearchForm";
 import StartupCard, { type StartupTypeCard } from "@/components/StartupCard";
 import { STARTUPS_QUERY, STARTUPS_SEARCH_QUERY, PLAYLIST_BY_SLUG_QUERY } from "@/sanity/lib/queries";
 import { sanityFetch, SanityLive } from "@/sanity/lib/live";
-import { auth } from "@/auth";
 
 export default async function Home({
   searchParams,
@@ -12,10 +12,6 @@ export default async function Home({
   const { query } = await searchParams;
   const trimmed = query?.trim();
   const isSearching = Boolean(trimmed);
-
-  const session = await auth();
-
-  console.log(session?.id);
 
   const { data: posts } = await sanityFetch({
     query: isSearching ? STARTUPS_SEARCH_QUERY : STARTUPS_QUERY,
@@ -55,13 +51,13 @@ export default async function Home({
             <div className="flex items-baseline justify-between">
               <p className="text-30-semibold">{featured.title}</p>
               {featured.slug?.current ? (
-                <a className="text-16-medium underline" href={`/playlist/${featured.slug.current}`}>
+                <Link className="text-16-medium underline" href={`/playlist/${featured.slug.current}`}>
                   Xem tất cả
-                </a>
+                </Link>
               ) : null}
             </div>
             <ul className="card_grid">
-              {featured.select.slice(0, 6).map((post) => (
+              {featured.select.slice(0, 6).map((post: StartupTypeCard) => (
                 <StartupCard key={post._id} post={post} />
               ))}
             </ul>
@@ -73,15 +69,15 @@ export default async function Home({
           {isSearching ? `Search results for "${trimmed}"` : "All Startups"}
         </p>
 
-        <ul className="card_grid">
-          {posts?.length > 0 ? (
-            posts.map((post: StartupTypeCard) => (
+        {posts?.length > 0 ? (
+          <ul className="card_grid">
+            {posts.map((post: StartupTypeCard) => (
               <StartupCard key={post?._id} post={post} />
-            ))
-          ) : (
-            <p className="no-results">No startups found</p>
-          )}
-        </ul>
+            ))}
+          </ul>
+        ) : (
+          <p className="no-result">No startups found</p>
+        )}
       </section>
 
       <SanityLive />

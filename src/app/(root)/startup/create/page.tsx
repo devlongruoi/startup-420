@@ -3,9 +3,26 @@ import { auth } from "@/auth";
 import StartupForm from "@/components/StartupForm";
 
 const Page = async () => {
-  const session = await auth();
-
-  if (!session) redirect("/");
+  try {
+    const session = await auth();
+ 
+    if (!session) {
+      redirect("/");
+    }
+ 
+    return (
+      <>
+        <section className="pink_container !min-h-[230px]">
+          <h1 className="heading">Submit Your Startup</h1>
+        </section>
+        
+        <StartupForm />
+      </>
+    );
+  } catch (error) {
+    console.error('Authentication error:', error);
+    redirect("/");
+  }
 
   return (
     <>

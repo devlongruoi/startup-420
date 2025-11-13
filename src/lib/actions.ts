@@ -96,9 +96,15 @@ export const createPitch = async (
       while (existingSlugs.includes(`${baseSlug}-${i}`)) i += 1;
       slug = `${baseSlug}-${i}`;
     }
-  } catch {
-    // If uniqueness check fails, proceed with base slug to avoid blocking submission
-    // (non-fatal)
+  } catch (error) {
+    // Surface the failure and avoid silent duplicates
+    console.error('[createPitch] Slug uniqueness check failed', {
+      baseSlug,
+      error,
+    });
+    // Degraded-mode deterministic fallback to minimize collision risk
+    // Append a millisecond timestamp to the base slug
+    slug = `${baseSlug}-${Date.now()}`;
   }
 
   try {

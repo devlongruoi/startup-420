@@ -10,6 +10,11 @@ import {
   ToastViewport,
 } from "@/components/ui/toast"
 
+/**
+ * Renders a toast notification stack driven by the application's toast state.
+ *
+ * @returns A React element that provides a ToastProvider, renders each active toast with its title, description, optional action and close button, and includes the toast viewport.
+ */
 export function Toaster() {
   const { toasts } = useToast()
 

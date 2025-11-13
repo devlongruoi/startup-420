@@ -55,6 +55,12 @@ export const metadata: Metadata = {
   description: "Pitch, Vote and Grow",
 };
 
+/**
+ * Provides the app's root HTML structure, applies the Work Sans font, and renders page content with a toast container.
+ *
+ * @param children - The React nodes to render inside the document body.
+ * @returns A JSX element containing the <html> and <body> wrappers with the font applied and a Toaster mounted.
+ */
 export default function RootLayout({
   children,
 }: Readonly<{

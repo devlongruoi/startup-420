@@ -2,6 +2,13 @@ import * as React from "react";
 
 const MOBILE_BREAKPOINT = 768;
 
+/**
+ * Determine whether the current viewport is considered mobile.
+ *
+ * Hooks into `globalThis.matchMedia` (falls back to `globalThis.innerWidth`) and updates the value when the viewport crosses the mobile breakpoint.
+ *
+ * @returns `true` if the viewport width is less than MOBILE_BREAKPOINT, `false` otherwise.
+ */
 export function useIsMobile() {
   const [isMobile, setIsMobile] = React.useState<boolean>(false);
 

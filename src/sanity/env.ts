@@ -13,6 +13,14 @@ export const projectId = assertValue(
 
 export const token = process.env.SANITY_WRITE_TOKEN;
 
+/**
+ * Ensures a required value is present and returns it.
+ *
+ * @param v - The value to assert is defined.
+ * @param errorMessage - Error message used when `v` is `undefined`.
+ * @returns The provided value `v`.
+ * @throws Error when `v` is `undefined`.
+ */
 function assertValue<T>(v: T | undefined, errorMessage: string): T {
   if (v === undefined) {
     throw new Error(errorMessage);

@@ -4,6 +4,17 @@ import StartupCard, { type StartupTypeCard } from "@/components/StartupCard";
 import { STARTUPS_QUERY, STARTUPS_SEARCH_QUERY, PLAYLIST_BY_SLUG_QUERY } from "@/sanity/lib/queries";
 import { sanityFetch, SanityLive } from "@/sanity/lib/live";
 
+/**
+ * Render the home page showing a search form, startup listings, and an optional featured playlist.
+ *
+ * When a non-empty `query` is provided in `searchParams`, the component fetches and displays search results.
+ * When no query is provided, it fetches all startups and additionally retrieves a featured playlist (slug from
+ * NEXT_PUBLIC_FEATURED_PLAYLIST_SLUG or `"trending"`) to showcase curated items.
+ *
+ * @param searchParams - A promise that resolves to an object with an optional `query` string used to filter startups.
+ * @returns The page's JSX including the hero/search section, an optional featured playlist block, a grid of startup cards
+ *          (or a "No startups found" message), and a SanityLive component.
+ */
 export default async function Home({
   searchParams,
 }: Readonly<{

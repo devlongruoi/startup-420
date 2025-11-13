@@ -17,7 +17,12 @@ import StartupCard, { type StartupTypeCard } from "@/components/StartupCard";
 
 export const experimental_ppr = true;
 
-// Stable server components for ReactMarkdown renderers
+/**
+ * Renders an anchor that opens links in a new tab and enforces safe link attributes.
+ *
+ * @param props - Standard anchor attributes. If `children` are provided they are rendered; otherwise the `href` value is used as the anchor text.
+ * @returns The anchor element with `target="_blank"` and `rel="noopener noreferrer"`.
+ */
 function MarkdownLink(props: Readonly<AnchorHTMLAttributes<HTMLAnchorElement>>) {
   const { children, ...rest } = props;
   return (

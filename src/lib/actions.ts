@@ -8,12 +8,13 @@ import { client } from "@/sanity/lib/client";
 import { serverFormSchema } from "@/lib/validation";
 
 type ActionState = { error: string; status: "INITIAL" | "SUCCESS" | "ERROR" };
+export type CreatePitchResult = ActionState & { _id?: string };
 
 export const createPitch = async (
   _state: ActionState,
   form: FormData,
   pitch: string,
-) => {
+): Promise<CreatePitchResult> => {
   const session = await auth();
 
   if (!session)
@@ -87,13 +88,13 @@ export const createPitch = async (
 
     const result = await writeClient.create({ _type: "startup", ...startup });
 
-    return parseServerActionResponse({ ...result, error: "", status: "SUCCESS" });
+    return parseServerActionResponse({ ...result, error: "", status: "SUCCESS" } as CreatePitchResult);
   } catch (error) {
     console.log(error);
 
     return parseServerActionResponse({
       error: "Failed to create startup",
       status: "ERROR",
-    });
+    } as CreatePitchResult);
   }
 };

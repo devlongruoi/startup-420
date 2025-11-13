@@ -21,9 +21,12 @@ const Navbar = async () => {
         <div className="flex items-center gap-5 text-black">
           {session?.user ? (
             <>
-              <Link href="/startup/create">
+              <Link href="/startup/create" aria-label="Create startup">
+                {/* Visible label on larger screens */}
                 <span className="max-sm:hidden">Create</span>
-                <BadgePlus className="size-6 sm:hidden" />
+                {/* Hidden accessible label for small screens when text is hidden */}
+                <span className="sr-only sm:hidden">Create startup</span>
+                <BadgePlus aria-hidden="true" className="size-6 sm:hidden" />
               </Link>
 
               <form
@@ -33,21 +36,31 @@ const Navbar = async () => {
                   await signOut({ redirectTo: "/" });
                 }}
               >
-                <button type="submit">
+                <button type="submit" aria-label="Logout">
+                  {/* Visible label on larger screens */}
                   <span className="max-sm:hidden">Logout</span>
-                  <LogOut className="size-6 sm:hidden text-red-500" />
+                  {/* Hidden accessible label for small screens */}
+                  <span className="sr-only sm:hidden">Logout</span>
+                  <LogOut aria-hidden="true" className="size-6 sm:hidden text-red-500" />
                 </button>
               </form>
 
-              <Link href={`/user/${session?.id}`}>
-                <Avatar className="size-10">
-                  <AvatarImage
-                    src={session?.user?.image || ""}
-                    alt={session?.user?.name || ""}
-                  />
-                  <AvatarFallback>AV</AvatarFallback>
+              {session?.id ? (
+                <Link href={`/user/${session.id}`}>
+                  <Avatar className="size-10">
+                    <AvatarImage
+                      src={session.user?.image || ""}
+                      alt={session.user?.name || "User avatar"}
+                    />
+                    <AvatarFallback>{(session.user?.name || "U").slice(0,2).toUpperCase()}</AvatarFallback>
+                  </Avatar>
+                </Link>
+              ) : (
+                <Avatar className="size-10 opacity-60" aria-hidden>
+                  <AvatarImage src={session.user?.image || ""} alt="" />
+                  <AvatarFallback>--</AvatarFallback>
                 </Avatar>
-              </Link>
+              )}
             </>
           ) : (
             <form

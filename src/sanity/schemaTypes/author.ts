@@ -9,11 +9,13 @@ export const author = defineType({
   fields: [
     defineField({
       name: "id",
-      type: "number",
+      type: "string",
+      description: "External provider user id stored as a string",
     }),
     defineField({
       name: "name",
       type: "string",
+      validation: (Rule) => Rule.required(),
     }),
     defineField({
       name: "username",
@@ -22,6 +24,7 @@ export const author = defineType({
     defineField({
       name: "email",
       type: "string",
+      validation: (Rule) => Rule.required(),
     }),
     defineField({
       name: "image",

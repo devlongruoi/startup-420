@@ -63,7 +63,7 @@ export type Author = {
   _createdAt: string;
   _updatedAt: string;
   _rev: string;
-  id?: number;
+  id?: string;
   name?: string;
   username?: string;
   email?: string;
@@ -183,5 +183,5 @@ export type Geopoint = {
   alt?: number;
 };
 
-export type AllSanitySchemaTypes = Startup | Markdown | Slug | Playlist | Author | SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | SanityImageMetadata | SanityImageHotspot | SanityImageCrop | SanityFileAsset | SanityAssetSourceData | SanityImageAsset | Geopoint;
+export type AllSanitySchemaTypes = Startup | Slug | Playlist | Author | SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | SanityImageMetadata | SanityImageHotspot | SanityImageCrop | SanityFileAsset | SanityAssetSourceData | SanityImageAsset | Geopoint;
 export declare const internalGroqTypeReferenceTo: unique symbol;
